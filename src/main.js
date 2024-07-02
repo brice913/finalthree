@@ -96,7 +96,7 @@ const loader = new GLTFLoader();
 let model, mixer, action, clock;
 
 loader.load(
-  "https://raw.githubusercontent.com/brice913/finalthree/main/perfectavatar2.glb",
+  "https://raw.githubusercontent.com/brice913/finalthree/main/perfectavatar3.glb",
   function (gltf) {
     model = gltf.scene;
     model.scale.set(2.5, 2.5, 2.5);
