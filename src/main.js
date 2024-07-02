@@ -105,8 +105,8 @@ loader.load(
         child.castShadow = true;
         child.receiveShadow = true;
         child.material.needsUpdate = true;
-        child.material.roughness = 0.4; // Balanced roughness
-        child.material.metalness = 0.3; // Balanced metalness
+        child.material.roughness = 0.6; // Balanced roughness
+        child.material.metalness = 0.5; // Balanced metalness
       }
     });
     scene.add(model);
