@@ -1,10 +1,8 @@
+import "./styles/style.css";
 import * as THREE from "three";
 import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
 import { AnimationMixer } from "three/src/animation/AnimationMixer.js";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger.js";
-
-gsap.registerPlugin(ScrollTrigger);
+console.log(THREE);
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
@@ -19,7 +17,7 @@ const camera = new THREE.PerspectiveCamera(
   0.1,
   1000
 );
-camera.position.set(0, 2.825, 4.5);
+camera.position.set(0, 3, 5);
 scene.add(camera);
 
 // Ambient Light
@@ -101,7 +99,7 @@ loader.load(
   "https://raw.githubusercontent.com/brice913/finalthree/main/perfectavatar3.glb",
   function (gltf) {
     model = gltf.scene;
-    model.scale.set(2.5, 2.5, 2.5);
+    model.scale.set(3, 3, 3); // Increase the initial model size
     model.traverse(function (child) {
       if (child.isMesh) {
         child.castShadow = true;
@@ -142,29 +140,19 @@ window.addEventListener("resize", () => {
   camera.updateProjectionMatrix();
   renderer.setSize(width, height);
   renderer.setPixelRatio(window.devicePixelRatio);
-
-  // Adjust the model's scale and camera position based on the window size
-  const scaleFactor = Math.min(width / 800, height / 600);
-  if (model) {
-    model.scale.set(scaleFactor * 2.5, scaleFactor * 2.5, scaleFactor * 2.5);
-  }
-  camera.position.set(0, scaleFactor * 2.825, scaleFactor * 4.5);
 });
 
-// Function to start animation
-function startAnimation() {
+// Animate function
+function animate() {
+  requestAnimationFrame(animate);
+
   const delta = clock.getDelta();
+
+  // Update the animation mixer
   if (mixer) mixer.update(delta);
+
+  // Render the scene
   renderer.render(scene, camera);
-  requestAnimationFrame(startAnimation);
 }
 
-// GSAP ScrollTrigger to start animation when in view
-ScrollTrigger.create({
-  trigger: ".work-wrap-3D",
-  start: "top 80%",
-  end: "bottom 20%",
-  onEnter: () => {
-    startAnimation();
-  }
-});
+animate();
