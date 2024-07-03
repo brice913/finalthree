@@ -165,4 +165,3 @@ function initThreeJS() {
 
 // Make initThreeJS function globally available
 window.initThreeJS = initThreeJS;
-</script>
