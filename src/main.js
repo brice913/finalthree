@@ -1,34 +1,26 @@
-// Wrap your existing Three.js code in a function
-function initThreeJS() {
-  import * as THREE from "three";
-  import { GLTFLoader } from "three/addons/loaders/GLTFLoader.js";
-  import { AnimationMixer } from "three/src/animation/AnimationMixer.js";
+import * as THREE from 'three';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { AnimationMixer } from 'three';
 
+function initThreeJS() {
   // Canvas
-  const canvas = document.querySelector("canvas.webgl");
+  const canvas = document.querySelector('canvas.webgl');
 
   // Scene
   const scene = new THREE.Scene();
 
   // Camera
-  const camera = new THREE.PerspectiveCamera(
-    75,
-    window.innerWidth / window.innerHeight,
-    0.1,
-    1000
-  );
+  const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
   camera.position.set(0, 2.825, 4.5);
   scene.add(camera);
 
-  // Ambient Light
+  // Lights
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
   scene.add(ambientLight);
 
-  // Hemisphere Light
   const hemisphereLight = new THREE.HemisphereLight(0x606060, 0x404040, 0.5);
   scene.add(hemisphereLight);
 
-  // Directional Lights
   const directionalLight1 = new THREE.DirectionalLight(0xffffff, 1.5);
   directionalLight1.position.set(5, 5, 5);
   directionalLight1.castShadow = true;
@@ -42,7 +34,6 @@ function initThreeJS() {
   directionalLight2.position.set(-5, 5, 5);
   scene.add(directionalLight2);
 
-  // Spotlights for better illumination
   const spotLight1 = new THREE.SpotLight(0xffffff, 1.5);
   spotLight1.position.set(0, 10, 0);
   spotLight1.angle = Math.PI / 6;
@@ -65,7 +56,6 @@ function initThreeJS() {
   spotLight2.shadow.camera.far = 50;
   scene.add(spotLight2);
 
-  // Additional lights for more fill
   const pointLight1 = new THREE.PointLight(0xffffff, 0.5);
   pointLight1.position.set(-5, -5, 5);
   scene.add(pointLight1);
@@ -74,16 +64,15 @@ function initThreeJS() {
   pointLight2.position.set(5, -5, 5);
   scene.add(pointLight2);
 
-  // Subtle red light for the face
   const redLight = new THREE.PointLight(0xff0000, 0.3);
   redLight.position.set(0, 2.5, 3);
   scene.add(redLight);
 
-  // Enable shadows in the renderer
+  // Renderer
   const renderer = new THREE.WebGLRenderer({
     canvas: canvas,
     alpha: true,
-    antialias: true, // Enable antialiasing for smoother edges
+    antialias: true,
   });
   renderer.setSize(window.innerWidth, window.innerHeight);
   renderer.setPixelRatio(window.devicePixelRatio);
@@ -91,12 +80,12 @@ function initThreeJS() {
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 
-  // Loading model and animation
+  // Load model
   const loader = new GLTFLoader();
   let model, mixer, action, clock;
 
   loader.load(
-    "https://raw.githubusercontent.com/brice913/finalthree/main/perfectavatar3.glb",
+    'https://raw.githubusercontent.com/brice913/finalthree/main/perfectavatar3.glb',
     function (gltf) {
       model = gltf.scene;
       model.scale.set(2.5, 2.5, 2.5);
@@ -105,24 +94,24 @@ function initThreeJS() {
           child.castShadow = true;
           child.receiveShadow = true;
           child.material.needsUpdate = true;
-          child.material.roughness = 0.6; // Balanced roughness
-          child.material.metalness = 0.5; // Balanced metalness
+          child.material.roughness = 0.6;
+          child.material.metalness = 0.5;
         }
       });
       scene.add(model);
 
-      // Set up the animation mixer
+      // Animation
       mixer = new AnimationMixer(model);
       const clips = gltf.animations;
       if (clips.length > 0) {
         action = mixer.clipAction(clips[0]);
-        action.timeScale = 0.5; // Slow down the animation speed by half (2x slower)
-        action.setLoop(THREE.LoopOnce); // Play animation only once
-        action.clampWhenFinished = true; // Keep the last frame when animation finishes
+        action.timeScale = 0.5;
+        action.setLoop(THREE.LoopOnce);
+        action.clampWhenFinished = true;
         action.play();
       }
 
-      // Create a clock for animation and camera rotation timing
+      // Clock
       clock = new THREE.Clock();
     },
     undefined,
@@ -131,8 +120,8 @@ function initThreeJS() {
     }
   );
 
-  // Handling window resize
-  window.addEventListener("resize", () => {
+  // Resize handling
+  window.addEventListener('resize', () => {
     const width = window.innerWidth;
     const height = window.innerHeight;
 
@@ -141,7 +130,6 @@ function initThreeJS() {
     renderer.setSize(width, height);
     renderer.setPixelRatio(window.devicePixelRatio);
 
-    // Adjust the model's scale and camera position based on the window size
     const scaleFactor = Math.min(width / 800, height / 600);
     if (model) {
       model.scale.set(scaleFactor * 2.5, scaleFactor * 2.5, scaleFactor * 2.5);
@@ -149,15 +137,11 @@ function initThreeJS() {
     camera.position.set(0, scaleFactor * 2.825, scaleFactor * 4.5);
   });
 
-  // Animate function
+  // Animation loop
   function animate() {
     requestAnimationFrame(animate);
-
     const delta = clock.getDelta();
-
-    // Update the animation mixer
     if (mixer) mixer.update(delta);
-
     renderer.render(scene, camera);
   }
   animate();
