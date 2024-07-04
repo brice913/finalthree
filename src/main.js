@@ -64,6 +64,10 @@ function initThreeJS() {
   pointLight2.position.set(5, -5, 5);
   scene.add(pointLight2);
 
+  const redLight = new THREE.PointLight(0xff0000, 0.3);
+  redLight.position.set(0, 2.5, 3);
+  scene.add(redLight);
+
   // Renderer
   const renderer = new THREE.WebGLRenderer({
     canvas: canvas,
