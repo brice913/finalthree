@@ -64,10 +64,6 @@ function initThreeJS() {
   pointLight2.position.set(5, -5, 5);
   scene.add(pointLight2);
 
-  const redLight = new THREE.PointLight(0xff0000, 0.3);
-  redLight.position.set(0, 2.5, 3);
-  scene.add(redLight);
-
   // Renderer
   const renderer = new THREE.WebGLRenderer({
     canvas: canvas,
@@ -85,7 +81,7 @@ function initThreeJS() {
   let model, mixer, action, clock;
 
   loader.load(
-    'https://raw.githubusercontent.com/brice913/finalthree/main/perfectavatar3.glb',
+    'https://raw.githubusercontent.com/brice913/finalthree/main/perfectavatar10.glb',
     function (gltf) {
       model = gltf.scene;
       model.scale.set(2.5, 2.5, 2.5);
