@@ -85,7 +85,7 @@ function initThreeJS() {
   let model, mixer, action, clock;
 
   loader.load(
-    'https://raw.githubusercontent.com/brice913/finalthree/main/lastavatar13.glb',
+    'https://raw.githubusercontent.com/brice913/finalthree/main/lastavatar20.glb',
     function (gltf) {
       model = gltf.scene;
       model.scale.set(2.5, 2.5, 2.5);
