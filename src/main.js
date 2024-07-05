@@ -1,4 +1,4 @@
-import { Scene, PerspectiveCamera, WebGLRenderer, AmbientLight, HemisphereLight, DirectionalLight, PCFSoftShadowMap } from 'three';
+import { Scene, PerspectiveCamera, WebGLRenderer, AmbientLight, HemisphereLight, DirectionalLight, PointLight, PCFSoftShadowMap } from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import { AnimationMixer, Clock, LoopOnce } from 'three';
 
@@ -15,13 +15,13 @@ function initThreeJS() {
   scene.add(camera);
 
   // Lights
-  const ambientLight = new AmbientLight(0xffffff, 0.5);
+  const ambientLight = new AmbientLight(0xffffff, 0.8); // Increased intensity
   scene.add(ambientLight);
 
-  const hemisphereLight = new HemisphereLight(0x606060, 0x404040, 0.5);
+  const hemisphereLight = new HemisphereLight(0x606060, 0x404040, 0.7); // Increased intensity
   scene.add(hemisphereLight);
 
-  const directionalLight1 = new DirectionalLight(0xffffff, 1.5);
+  const directionalLight1 = new DirectionalLight(0xffffff, 2.0); // Increased intensity
   directionalLight1.position.set(5, 5, 5);
   directionalLight1.castShadow = true;
   directionalLight1.shadow.mapSize.width = 1024;  // Reduced shadow map size
@@ -30,9 +30,13 @@ function initThreeJS() {
   directionalLight1.shadow.camera.far = 50;
   scene.add(directionalLight1);
 
-  const directionalLight2 = new DirectionalLight(0xffffff, 0.8);
+  const directionalLight2 = new DirectionalLight(0xffffff, 1.2); // Increased intensity
   directionalLight2.position.set(-5, 5, 5);
   scene.add(directionalLight2);
+
+  const pointLight = new PointLight(0xffffff, 1.5, 50); // New point light for additional lighting
+  pointLight.position.set(0, 5, 5);
+  scene.add(pointLight);
 
   // Renderer
   const renderer = new WebGLRenderer({
